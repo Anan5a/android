@@ -655,7 +655,9 @@ public class AvdManagerConnection {
                                                            @NotNull EmulatorCommandBuilderFactory factory) {
     ProgressIndicator indicator = new StudioLoggerProgressIndicator(AvdManagerConnection.class);
     ILogger logger = new LogWrapper(Logger.getInstance(AvdManagerConnection.class));
-    Optional<Collection<String>> params = Optional.ofNullable(System.getenv("studio.emu.params")).map(Splitter.on(',')::splitToList);
+    
+    String mparams = System.getenv("studio.emu.params") != null ? System.getenv("studio.emu.params") : System.getenv("STUDIO_EMU_PARAMS");
+    Optional<Collection<String>> params = Optional.ofNullable(mparams).map(Splitter.on(',')::splitToList);
 
     return factory.newEmulatorCommandBuilder(emulator, avd)
       .setAvdHome(myAvdManager.getBaseAvdFolder())
